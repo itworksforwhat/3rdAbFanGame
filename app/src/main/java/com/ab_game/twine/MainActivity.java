@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -37,6 +40,16 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setDatabaseEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // 페이지 로드가 끝나면 스크롤을 맨 위로 올린다
+                view.scrollTo(0, 0);
+
+                // 만약 자바스크립트로도 제어하고 싶다면 아래처럼:
+                view.loadUrl("javascript:window.scrollTo(0,0);");
+            }
+        });
 
         webView.loadUrl("file:///android_asset/index.html");
     }
